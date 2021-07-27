@@ -1,3 +1,4 @@
+import 'package:assignment/afterLogin.dart';
 import 'package:assignment/main.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -13,9 +14,11 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController emailController =
+      TextEditingController(text: "ckkashi007@gmail.com");
 
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordController =
+      TextEditingController(text: "12341234");
 
   Widget customDialog(String title, String message) {
     return AlertDialog(
@@ -34,8 +37,8 @@ class _LoginState extends State<Login> {
   loginUser() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseFirestore db = FirebaseFirestore.instance;
-    String email = emailController.text;
-    String password = passwordController.text;
+    String email = emailController.text = "ckkashi007@gmail.com";
+    String password = passwordController.text = "12341234";
     try {
       UserCredential user = await auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -45,16 +48,18 @@ class _LoginState extends State<Login> {
       final data = snap.data();
       emailController.text = "";
       passwordController.text = "";
-      showDialog(
-          context: context,
-          builder: (context) {
-            return customDialog(
-                "Successfully Logged in",
-                "username : " +
-                    data["username"] +
-                    "\nEmail : " +
-                    data["email"]);
-          });
+      // showDialog(
+      //     context: context,
+      //     builder: (context) {
+      //       return customDialog(
+      //           "Successfully Logged in",
+      //           "username : " +
+      //               data["username"] +
+      //               "\nEmail : " +
+      //               data["email"]);
+      //     });
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => AfterLogin()));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         showDialog(
